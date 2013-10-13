@@ -1,0 +1,16 @@
+{
+    "name": "midnight/retwis-0.3",
+    "description": "twit clone",
+    "require": {
+        "predis/predis": "0.8.*@dev"
+    },
+    "authors": [
+        {
+            "name": "Sandra McMullen",
+            "email": "smcmullen101@gmail.com"
+        }
+    ],
+    "require": {
+        "predis/predis": "0.8.*@dev"
+    }
+}
