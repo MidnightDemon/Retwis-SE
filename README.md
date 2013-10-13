@@ -1,159 +1,42 @@
-GitHub Flavored Markdown
+Retwis-SE
 ================================
 
-*View the [source of this content](http://github.github.com/github-flavored-markdown/sample_content.html).*
+[Redis](http://try.redis.io/) is a very unique NoSQL database, and evry easy to learn!  I had originally viewed [this article on how Redis can be used with PHP to make a very simple twitter clone](http://redis.io/topics/twitter-clone).
 
-Let's get the whole "linebreak" thing out of the way. The next paragraph contains two phrases separated by a single newline character:
+But, the links were broken and (after some hunting) I found a copy of Retwis 0.3.  I found the library [written by Ludovico Magnocavallo](http://qix.it/) it out-of-date and a bit buggy (ie: setting a value of "hello" for a given key yeilded "4" instead) thus replaced it with Predis.  I may do a fix on it and include it in the project, just for reference.
 
-Roses are red
-Violets are blue
-
-The next paragraph has the same phrases, but now they are separated by two spaces and a newline character:
-
-Roses are red  
-Violets are blue
-
-Oh, and one thing I cannot stand is the mangling of words with multiple underscores in them like perform_complicated_task or do_this_and_do_that_and_another_thing.
-
-A bit of the GitHub spice
+Setup Instructions
 -------------------------
 
-In addition to the changes in the previous section, certain references are auto-linked:
+We will need the following:
 
-* SHA: be6a8cc1c1ecfe9489fb51e4869af15a13fc2cd2
-* User@SHA ref: mojombo@be6a8cc1c1ecfe9489fb51e4869af15a13fc2cd2
-* User/Project@SHA: mojombo/god@be6a8cc1c1ecfe9489fb51e4869af15a13fc2cd2
-* \#Num: #1
-* User/#Num: mojombo#1
-* User/Project#Num: mojombo/god#1
+* PHP (>5.4.0) - contains built-in PHP Dev Server
+* [Redis](http://redis.io/download) (> 2.6.0)
+* [Composer PHP Dependency Manager](https://github.com/composer/composer)
+* Optional - [Apache PHP Server](http://www.apache.org/)
 
-These are dangerous goodies though, and we need to make sure email addresses don't get mangled:
-
-My email addy is tom@github.com.
-
-Math is hard, let's go shopping
+Additional Notes
 -------------------------------
 
-In first grade I learned that 5 > 3 and 2 < 7. Maybe some arrows. 1 -> 2 -> 3. 9 <- 8 <- 7.
+The original base code uses shorthand tags - edit your php.ini and enable short_open_tags for now, I'll replace them when I get around to it.
 
-Triangles man! a^2 + b^2 = c^2
+To start the PHP built-in server, navigate into the folder you put this code into and use : php -S localhost:3000
 
-We all like making lists
+I'm using Chromium on ArchLinux - which does not support local host so I just use : php -S 127.0.0.1:3000 - use any port you like!
+
+Start the Redis server using : redis-server
+Start the Redis client using : redis-cli
+
+Copyright Stuff for the Base Code
 ------------------------
 
-The above header should be an H2 tag. Now, for a list of fruits:
+Copyright (c) 2006-2009, Salvatore Sanfilippo
+All rights reserved.
 
-* Red Apples
-* Purple Grapes
-* Green Kiwifruits
+Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
 
-Let's get crazy:
+    * Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+    * Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+    * Neither the name of Redis nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
 
-1.  This is a list item with two paragraphs. Lorem ipsum dolor
-    sit amet, consectetuer adipiscing elit. Aliquam hendrerit
-    mi posuere lectus.
-
-    Vestibulum enim wisi, viverra nec, fringilla in, laoreet
-    vitae, risus. Donec sit amet nisl. Aliquam semper ipsum
-    sit amet velit.
-
-2.  Suspendisse id sem consectetuer libero luctus adipiscing.
-
-What about some code **in** a list? That's insane, right?
-
-1. In Ruby you can map like this:
-
-        ['a', 'b'].map { |x| x.uppercase }
-
-2. In Rails, you can do a shortcut:
-
-        ['a', 'b'].map(&:uppercase)
-
-Some people seem to like definition lists
-
-<dl>
-  <dt>Lower cost</dt>
-  <dd>The new version of this product costs significantly less than the previous one!</dd>
-  <dt>Easier to use</dt>
-  <dd>We've changed the product so that it's much easier to use!</dd>
-</dl>
-
-I am a robot
-------------
-
-Maybe you want to print `robot` to the console 1000 times. Why not?
-
-    def robot_invasion
-      puts("robot " * 1000)
-    end
-
-You see, that was formatted as code because it's been indented by four spaces.
-
-How about we throw some angle braces and ampersands in there?
-
-    <div class="footer">
-        &copy; 2004 Foo Corporation
-    </div>
-
-Set in stone
-------------
-
-Preformatted blocks are useful for ASCII art:
-
-<pre>
-             ,-. 
-    ,     ,-.   ,-. 
-   / \   (   )-(   ) 
-   \ |  ,.>-(   )-< 
-    \|,' (   )-(   ) 
-     Y ___`-'   `-' 
-     |/__/   `-' 
-     | 
-     | 
-     |    -hrr- 
-  ___|_____________ 
-</pre>
-
-Playing the blame game
-----------------------
-
-If you need to blame someone, the best way to do so is by quoting them:
-
-> I, at any rate, am convinced that He does not throw dice.
-
-Or perhaps someone a little less eloquent:
-
-> I wish you'd have given me this written question ahead of time so I
-> could plan for it... I'm sure something will pop into my head here in
-> the midst of this press conference, with all the pressure of trying to
-> come up with answer, but it hadn't yet...
->
-> I don't want to sound like
-> I have made no mistakes. I'm confident I have. I just haven't - you
-> just put me under the spot here, and maybe I'm not as quick on my feet
-> as I should be in coming up with one.
-
-Table for two
--------------
-
-<table>
-  <tr>
-    <th>ID</th><th>Name</th><th>Rank</th>
-  </tr>
-  <tr>
-    <td>1</td><td>Tom Preston-Werner</td><td>Awesome</td>
-  </tr>
-  <tr>
-    <td>2</td><td>Albert Einstein</td><td>Nearly as awesome</td>
-  </tr>
-</table>
-
-Crazy linking action
---------------------
-
-I get 10 times more traffic from [Google] [1] than from
-[Yahoo] [2] or [MSN] [3].
-
-  [1]: http://google.com/        "Google"
-  [2]: http://search.yahoo.com/  "Yahoo Search"
-  [3]: http://search.msn.com/    "MSN Search"
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.

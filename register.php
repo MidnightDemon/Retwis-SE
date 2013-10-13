@@ -18,14 +18,15 @@ if (!gt("username") || !gt("password") || !gt("password2")) {
 		
 		# Everything is ok, Register the user!
 		$userid = $r->incr("global:nextUserId");
+
 		//print("user " . $userid);
 		//print(" name " . $username);
 		//print(" pass " . $password);
+		
 		$r->set("username:$username:id",$userid);
 		$r->set("uid:$userid:username",$username);
 		$r->set("uid:$userid:password",$password);
 
-		/*
 		$authsecret = getrand();
 		$r->set("uid:$userid:auth",$authsecret);
 		$r->set("auth:$authsecret",$userid);
@@ -42,7 +43,6 @@ if (!gt("username") || !gt("password") || !gt("password2")) {
 		echo "Hey " . utf8entities($username) . ", now you have an account, <a href=\"index.php\">a good start is to write your first message!</a>.";
 
 		include("footer.php");
-		*/
 	}
 }
 ?>

@@ -1,5 +1,7 @@
 <?
-require_once('vendor/predis/predis/autoload.php');
+
+//Change libraries here
+require_once('vendor/autoload.php');
 
 function getrand() {
     $fd = fopen("/dev/urandom","r");
@@ -143,7 +145,8 @@ function showLastUsers() {
     $users = $r->sort("global:users","GET uid:*:username DESC LIMIT 0 10");
     echo("<div>");
     foreach($users as $u) {
-        echo("<a class=\"username\" href=\"profile.php?u=".urlencode($u)."\">".utf8entities($u)."</a> ");
+        $name = $r->get("uid:$u:username");
+        echo("<a class=\"username\" href=\"profile.php?u=".urlencode($u)."\">".utf8entities($name)."</a> ");
     }
     echo("</div><br>");
 }
