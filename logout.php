@@ -13,7 +13,7 @@ $oldauthsecret = $r->get("uid:$userid:auth");
 
 $r->set("uid:$userid:auth",$newauthsecret);
 $r->set("auth:$newauthsecret",$userid);
-$r->delete("auth:$oldauthsecret");
+$r->del("auth:$oldauthsecret");
 
 header("Location: index.php");
 ?>
