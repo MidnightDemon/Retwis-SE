@@ -5,7 +5,7 @@ Retwis-SE
 
 But, the links were broken and (after some hunting) I found a copy of Retwis 0.3.  I found the library [written by Ludovico Magnocavallo](http://qix.it/)  - it's out-of-date and thus buggy so I've replaced it with Predis.  **I'm doing a fix on it and will include it in the project, just for reference.
 
-**update: The library was using old request protocols - currently working on it.
+**UPDATE: The library was using old request protocols - currently working on it.
 
 Setup Instructions
 -------------------------
@@ -24,9 +24,9 @@ The original base code uses shorthand tags - edit your php.ini and enable short_
 
 To start the PHP built-in server, navigate into the folder you put this code into and use : php -S localhost:3000
 
-I'm using Chromium on ArchLinux - which does not support local host so I just use : php -S 127.0.0.1:3000 - use any port you like!
+I'm using Chromium on ArchLinux - which does not support 'localhost' ref, so I just use : php -S 127.0.0.1:3000 - use any port you like!
 
-Start the Redis server using : redis-server
+Start the Redis server using : redis-server  
 Start the Redis client using : redis-cli
 
 Copyright Stuff for the Base Code
