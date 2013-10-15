@@ -1,7 +1,7 @@
 Retwis-SE
 ================================
 
-[Redis](http://try.redis.io/) is a very unique NoSQL database, and evry easy to learn!  I had originally viewed [this article on how Redis can be used with PHP to make a very simple twitter clone](http://redis.io/topics/twitter-clone).
+[Redis](http://try.redis.io/) is a funny little NoSQL database, and very easy to learn!  I had originally viewed [this article on how Redis can be used with PHP to make a very simple twitter clone](http://redis.io/topics/twitter-clone).
 
 But, the links were broken and (after some hunting) I found a copy of Retwis 0.3.  I found the library [written by Ludovico Magnocavallo](http://qix.it/) it out-of-date and a bit buggy (ie: setting a value of "hello" for a given key yeilded "4" instead) thus replaced it with Predis.  I may do a fix on it and include it in the project, just for reference.
 
