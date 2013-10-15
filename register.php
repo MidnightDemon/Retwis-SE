@@ -18,10 +18,6 @@ if (!gt("username") || !gt("password") || !gt("password2")) {
 		
 		# Everything is ok, Register the user!
 		$userid = $r->incr("global:nextUserId");
-
-		//print("user " . $userid);
-		//print(" name " . $username);
-		//print(" pass " . $password);
 		
 		$r->set("username:$username:id",$userid);
 		$r->set("uid:$userid:username",$username);

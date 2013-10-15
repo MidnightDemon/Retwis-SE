@@ -1,7 +1,25 @@
 <?
 
 //Change libraries here
+
+//Redis edited connection
+//require_once('redis.php');
+
+//Predis via Symphony
 require_once('vendor/autoload.php');
+
+function redisLink() {
+    static $r = false;
+
+    if ($r) return $r;
+
+    // Change libaries here
+    //$r = new Redis();
+    $r = new Predis\Client();
+
+    $r->connect();
+    return $r;
+}
 
 function getrand() {
     $fd = fopen("/dev/urandom","r");
@@ -34,17 +52,6 @@ function loadUserInfo($userid) {
     $User['id'] = $userid;
     $User['username'] = $r->get("uid:$userid:username");
     return true;
-}
-
-function redisLink() {
-    static $r = false;
-
-    if ($r) return $r;
-
-    // Change libaries here
-    $r = new Predis\Client();
-    $r->connect();
-    return $r;
 }
 
 # Access to GET/POST/COOKIE parameters the easy way

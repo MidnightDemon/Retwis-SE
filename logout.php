@@ -2,8 +2,8 @@
 include("retwis.php");
 
 if (!isLoggedIn()) {
-    header("Location: index.php");
-    exit;
+	header("Location: index.php");
+	exit;
 }
 
 $r = redisLink();
