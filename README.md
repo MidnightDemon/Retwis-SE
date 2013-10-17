@@ -5,7 +5,7 @@ Retwis-SE
 
 But, the links were broken and (after some hunting) I found a copy of Retwis 0.3.  I found the library [written by Ludovico Magnocavallo](http://qix.it/)  - it's out-of-date and thus buggy so I've replaced it with Predis.  **I'm doing a fix on it and will include it in the project, just for reference.
 
-**UPDATE: The library was using old request protocols - currently working on it.
+**UPDATE: The library was using old request protocols - currently working on it.  I'm making it 1:1 with Predis so you can just swap back and forth with minimal changes. It's all in redis.php.
 
 Setup Instructions
 -------------------------
@@ -20,7 +20,7 @@ We will need the following:
 Additional Notes
 -------------------------------
 
-The original base code uses shorthand tags - edit your php.ini and enable short_open_tags for now, I'll replace them when I get around to it.
+The original base code uses shorthand tags - edit your php.ini and enable short_open_tags for now, I'll replace them when I get around to it.  Also, the random function uses a file in /dev/ so be sure to add this path to your open_basedir in php.ini.
 
 To start the PHP built-in server, navigate into the folder you put this code into and use : php -S localhost:3000
 

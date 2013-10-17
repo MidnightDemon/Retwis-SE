@@ -2,8 +2,8 @@
 include("retwis.php");
 
 if (!isLoggedIn() || !gt("status")) {
-    header("Location:index.php");
-    exit;
+	header("Location:index.php");
+	exit;
 }
 
 $r = redisLink();
@@ -21,7 +21,7 @@ if ($followers === false) {
 $followers[] = $User['id']; /* Add the post to our own posts too */
 
 foreach($followers as $fid) {
-    $r->lpush("uid:$fid:posts",$postid,false);
+	$r->lpush("uid:$fid:posts",$postid,false);
 }
 # Push the post on the timeline, and trim the timeline to the
 # newest 1000 elements.

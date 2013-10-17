@@ -3,9 +3,9 @@ include("retwis.php");
 
 # Form sanity checks
 if (!gt("username") || !gt("password") || !gt("password2")) {
-    goback("Every field of the registration form is needed!");
+  goback("Every field of the registration form is needed!");
 } elseif (gt("password") != gt("password2")) {
-    goback("The two password fileds don't match!");
+  goback("The two password fileds don't match!");
 } else {
 
 	# The form is ok, check if the username is available

@@ -54,7 +54,8 @@ class Redis {
 	function &ping() {
 		$this->connect();
 		$this->_write("PING\r\n");
-		return $this->get_response();
+		$ret = $this->get_response(); 
+		return $ret;
 	}
 
 	function &do_echo($s) {
@@ -63,14 +64,12 @@ class Redis {
 		return $this->_get_value();
 	}
 
-	private function &format($args){
-		if(count($args)>1) {
-			$s = "*" . count($args) . "\r\n";
-			foreach ($args as $i => $value)
-				$s .= "$" . strlen($value). "\r\n$value\r\n";
-	
-			return $s;
-		}
+	private function format($args){
+		$s = "*" . count($args) . "\r\n";
+		foreach ($args as $i => $value)
+			$s .= "$" . strlen($value). "\r\n$value\r\n";
+
+		return $s;
 	}
 
 	// BORKED ATM
@@ -79,11 +78,15 @@ class Redis {
 		print("in set ... " . $name . " " . $value . "<br />");
 
 		$this->connect();
-		//$this->format(array("SET", (string)$name, (string)$value));
-		$s = $this->format(array("SET", (string)$name, (string)$value));
-		print("command: " . $s . "<br />");
-		$this->_write("*3\r\n$3\r\nSET\r\n$" . strlen($name). "\r\n$name\r\n$" . strlen($value) . "\r\n$value\r\n");
-		return $this->get_response();
+		$a = array("SET", (string)$name, (string)$value);
+		$s = $this->format($a);
+		//$s = $this->format(array("SET", (string)$name, (string)$value));
+		//print("command: " . $s . "<br />");
+		//$this->_write("*3\r\n$3\r\nSET\r\n$" . strlen($name). "\r\n$name\r\n$" . strlen($value) . "\r\n$value\r\n");
+		
+		$this->_write($s);
+		$ret = $this->get_response();
+		return $ret;
 	}
 
 	//END BORKEDNESS 
@@ -93,13 +96,14 @@ class Redis {
 
 		$this->connect();
 		$this->_write("SETNX $name " . strlen($value) . "\r\n$value\r\n");
-		return $this->get_response();
+		$ret = $this->get_response(); return $ret;
 	}	
 
 	function &get($name) {
 		$this->connect();
 		$this->_write("GET $name\r\n");
-		return $this->_get_value();
+		$ret = $this->_get_value();
+		return $ret;
 	}
 
 	function &incr($name, $amount=1) {
@@ -108,7 +112,8 @@ class Redis {
 			$this->_write("INCR $name\r\n");
 		else
 			$this->_write("INCRBY $name $amount\r\n");
-		return $this->get_response();
+		$ret = $this->get_response();
+		return $ret;
 	}
 
 	function &decr($name, $amount=1) {
@@ -117,70 +122,91 @@ class Redis {
 			$this->_write("DECR $name\r\n");
 		else
 			$this->_write("DECRBY $name $amount\r\n");
-		return $this->get_response();
+		$ret = $this->get_response(); return $ret;
 	}
 
 	function &exists($name) {
 		$this->connect();
 		$this->_write("EXISTS $name\r\n");
-		return $this->get_response();
+		$ret = $this->get_response(); return $ret;
 	}
 
 	function &del($name) {
 		$this->connect();
-		$this->_write("DEL $name\r\n");
-		return $this->get_response();
+		$a = array("DEL", $name);
+		$s = $this->format($a);
+		$this->_write($s);		
+		$ret = $this->get_response(); 
+		return $ret;
 	}
 
 	function &keys($pattern) {
 		$this->connect();
-		$this->_write("KEYS $pattern\r\n");
+		$a = array("KEYS", $pattern);
+		$s = $this->format($a);
+		$this->_write($s);
 		return explode(' ', $this->_get_value());
 	}
 
 	function &randomkey() {
 		$this->connect();
-		$this->_write("RANDOMKEY\r\n");
-		return $this->get_response();
+		$a = array("RANDOMKEY");
+		$s = $this->format($a);
+		$this->_write($s);
+		$ret = $this->get_response(); 
+		return $ret;
 	}
 
 	function &renamenx($src, $dst) {
 		$this->connect();
-		$this->_write("*3\r\n$8\r\nRENAMENX\r\n$src\r\n$dst\r\n");
-		return $this->get_response();
+		$a = array("RENAMENX", (string)$src, (string)$dst);
+		$s = $this->format($a);
+		$this->_write($s);		
+		$ret = $this->get_response(); 
+		return $ret;
 	}	
 
 	function &rename($src, $dst) {
 		$this->connect();
-		$this->_write("RENAME $src $dst\r\n");
-		return $this->get_response();
+		$a = array("RENAME", (string)$src, (string)$dst);
+		$s = $this->format($a);
+		$this->_write($s);
+		$ret = $this->get_response(); 
+		return $ret;
 	}
 
 	function &expire($name, $time) {
 		$this->connect();
-		$this->_write("EXPIRE $name $time\r\n");
-		return $this->get_response();
+		$a = array("EXPIRE", (string)$name, (string)$time);
+		$s = $this->format($a);
+		$this->_write($s);
+		$ret = $this->get_response(); 
+		return $ret;
 	}
 
 	private function &push($name, $value, $tail) {
 		// default is to append the element to the list
 		$this->connect();
-		$this->_write($tail . " $name " . strlen($value) . "\r\n$value\r\n");
-		return $this->get_response();
+		$a = array((string)$tail, (string)$name, (string)$value);
+		$s = $this->format($a);
+		$this->_write($s);
+		$ret = $this->get_response(); 
+		return $ret;
 	}			
 
 	function &lpush($name, $value) {
-		return $this->push($name, $value, $tail=false);
+		return $this->push($name, $value, "LPUSH");
 	}
 
 	function &rpush($name, $value) {
-		return $this->push($name, $value, $tail=true);
+		return $this->push($name, $value, "RPUSH");
 	}	
 
 	function &ltrim($name, $start, $end) {
 		$this->connect();
 		$this->_write("LTRIM $name $start $end\r\n");
-		return $this->get_response();
+		$ret = $this->get_response(); 
+		return $ret;
 	}
 
 	function &lindex($name, $index) {
@@ -201,91 +227,105 @@ class Redis {
 	function &llen($name) {
 		$this->connect();
 		$this->_write("LLEN $name\r\n");
-		return $this->get_response();
+		$ret = $this->get_response(); return $ret;
 	}
 
 	function &lrange($name, $start, $end) {
 		$this->connect();
 		$this->_write("LRANGE $name $start $end\r\n");
-		return $this->get_response();
+		$ret = $this->get_response(); 
+		return $ret;
 	}
 
 	function &sort($name, $query=false) {
 		$this->connect();
 		$this->_write($query == false ? "SORT $name\r\n" : "SORT $name $query\r\n");
-		return $this->get_response();
+		$ret = $this->get_response(); 
+		return $ret;
 	}
 
 	function &lset($name, $value, $index) {
 		$this->connect();
 		$this->_write("LSET $name $index " . strlen($value) . "\r\n$value\r\n");
-		return $this->get_response();
+		$ret = $this->get_response(); 
+		return $ret;
 	}
 
 	function &sadd($name, $value) {
 		$this->connect();
 		$this->_write($this->format(array("SADD", (string)$name, (string)$value)));
-		return $this->get_response();
+		$ret = $this->get_response(); 
+		return $ret;
 	}
 
 	function &srem($name, $value) {
 		$this->connect();
 		$this->_write("SREM $name " . strlen($value) . "\r\n$value\r\n");
-		return $this->get_response();
+		$ret = $this->get_response(); 
+		return $ret;
 	}
 
 	function &sismember($name, $value) {
 		$this->connect();
 		$this->_write("SISMEMBER $name " . strlen($value) . "\r\n$value\r\n");
-		return $this->get_response();
+		$ret = $this->get_response(); 
+		return $ret;
 	}
 
 	function &sinter($sets) {
 		$this->connect();
 		$this->_write('SINTER ' . implode(' ', $sets) . "\r\n");
-		return $this->get_response();
+		$ret = $this->get_response(); 
+		return $ret;
 	}
 
 	function &smembers($name) {
 		$this->connect();
 		$this->_write("SMEMBERS $name\r\n");
-		return $this->get_response();
+		$ret = $this->get_response(); 
+		return $ret;
 	}
 
 	function &scard($name) {
 		$this->connect();
 		$this->_write("SCARD $name\r\n");
-		return $this->get_response();
+		$ret = $this->get_response(); 
+		return $ret;
 	}
 
 	function &select_db($name) {
 		$this->connect();
 		$this->_write("SELECT $name\r\n");
-		return $this->get_response();
+		$ret = $this->get_response(); 
+		return $ret;
 	}
 
 	function &move($name, $db) {
 		$this->connect();
 		$this->_write("MOVE $name $db\r\n");
-		return $this->get_response();
+		$ret = $this->get_response(); 
+		return $ret;
 	}
 
 	function &save($background=false) {
 		$this->connect();
 		$this->_write(($background ? "BGSAVE\r\n" : "SAVE\r\n"));
-		return $this->get_response();
+		$ret = $this->get_response(); 
+		return $ret;
 	}
 
 	function &lastsave() {
 		$this->connect();
 		$this->_write("LASTSAVE\r\n");
-		return $this->get_response();
+		$ret = $this->get_response(); 
+		return $ret;
 	}
 
 	function &flush($all=false) {
 		$this->connect();
 		$this->_write($all ? "FLUSH\r\n" : "FLUSHDB\r\n");
-		return $this->get_response();
+		$ret = $this->get_response(); 
+		return $ret;
 	}
 
 	function &info() {
@@ -303,9 +343,10 @@ class Redis {
 		return $info;
 	}
 
-	function &_write($s) {
+	function _write($s) {
 		while ($s) {
-			$i = fwrite($this->_sock, $s);
+			$sock = $this->_sock;
+			$i = fwrite($sock, $s);
 			if ($i == 0) // || $i == strlen($s))
 				break;
 			$s = substr($s, $i);
@@ -319,7 +360,7 @@ class Redis {
 		trigger_error("Cannot read from socket.", E_USER_ERROR);
 	}
 
-	function &get_response() {
+	function get_response() {
 		$data = trim($this->_read());
 
 		print("data: " . $data . "<br />");
@@ -342,11 +383,12 @@ class Redis {
 					$result[] =& $this->_get_value();
 				return $result;
 			default:
-				return $this->_get_value($c . $data);
+				$ret = $this->_get_value($c . $data);
+				return $ret;
 		}
 	}
 
-	function &_get_value($data=null) {
+	function _get_value($data=null) {
 		if ($data === null)
 			$data =& trim($this->_read());
 		if ($data == '$-1')
@@ -368,7 +410,8 @@ class Redis {
 			if ($i < 0)
 				break;
 		}
-		return substr($buffer, 0, -2);
+		$s = substr($buffer, 0, -2);
+		return $s;
 	}
 
 }   
